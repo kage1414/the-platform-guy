@@ -22,7 +22,6 @@ const getCountryOptions = (): ReactElement[] => {
     }
     return 0;
   });
-  console.log({ list });
   return list.map(({ code, name }, idx) => (
     <MenuItem key={`${code} ${idx}`} value={code}>
       {name}
@@ -38,7 +37,7 @@ export default function AddressForm() {
   const [city, setCity] = useState<string>("");
   const [stateProvinceRegion, setStateProvinceRegion] = useState<string>("");
   const [zipPostalCode, setZipPostalCode] = useState<string>("");
-  const [country, setCountry] = useState<string>("");
+  const [country, setCountry] = useState<string>("US");
   const [comments, setComments] = useState<string>("");
   const [platformSize, setPlatformSize] = useState<string>("");
   return (
@@ -154,11 +153,10 @@ export default function AddressForm() {
           />
         </Grid>
         <Grid item xs={12} sm={6}>
-          <FormControl sx={{ width: "20em" }}>
+          <FormControl sx={{ width: "100%" }}>
             <InputLabel id="countryLabel">Country</InputLabel>
             <Select
               id="country"
-              defaultValue="US"
               labelId="countryLabel"
               label="Country"
               value={country}

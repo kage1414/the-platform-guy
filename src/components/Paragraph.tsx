@@ -26,12 +26,14 @@ export const Paragraph = ({
   pricingList,
   imagePosition = "below",
 }: Props): ReactElement => {
+  const below = imagePosition === 'below'
   return (
     <Box
       display="flex"
-      flexDirection={imagePosition === "below" ? "column" : "row"}
+      flexDirection={below ? "column" : "row"}
+      flexWrap="wrap"
     >
-      <Box>
+      <Box >
         {headerText && <Typography variant="h6">{headerText}</Typography>}
         {mainTextBody && <Typography>{mainTextBody}</Typography>}
         {pricingList && (
@@ -47,13 +49,13 @@ export const Paragraph = ({
         {images && (
           <Box
             display="flex"
-            flexDirection={imagePosition === "below" ? "row" : "column"}
+            flexDirection={below ? "row" : "column"}
             flexWrap="wrap"
             alignItems="center"
             justifyContent="space-around"
           >
             {images.map(({ src, alt, width, height }, idx) => (
-              <Box padding={2} key={idx + src}>
+              <Box padding={2} key={idx + src} display="inline-block">
                 <Image
                   src={src}
                   alt={alt}
