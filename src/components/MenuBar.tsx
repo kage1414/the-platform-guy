@@ -7,7 +7,7 @@ export const MenuBar = (): ReactElement => {
     <Box>
       <AppBar
         position="sticky"
-        style={{
+        sx={{
           backgroundImage: `url('/wood-pattern.png')`,
         }}
       >
@@ -25,7 +25,7 @@ export const MenuBar = (): ReactElement => {
                 </Button>
               </Link>
             </Box>
-            <Box display="flex">
+            <Box display="flex" flexWrap={"wrap"}>
               <Link href={"/"}>
                 <Button sx={{ color: "white" }} disableRipple>
                   <Typography padding={1}>Home</Typography>

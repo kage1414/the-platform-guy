@@ -1,6 +1,7 @@
 import AddressForm from "./AddressForm";
 import { PageContainer } from "./PageContainer";
 import { Paragraph } from "./Paragraph";
+import { Divider } from "@mui/material";
 import { ReactElement } from "react";
 
 export const OrderPage = (): ReactElement => {
@@ -25,6 +26,7 @@ export const OrderPage = (): ReactElement => {
         ]}
         imagePosition="right"
       />
+      <Divider />
       <AddressForm />
     </PageContainer>
   );

@@ -1,13 +1,9 @@
-import { Typography, Box, List, ListItemText } from "@mui/material";
-import Image from "next/image";
+import { ImageGridItem } from "./ImageGridItem";
+import { ImageProps } from "./ImageGridItem";
+import { Typography, Box, List, ListItemText, Grid } from "@mui/material";
 import { ReactElement } from "react";
 
-interface ImageProps {
-  src: string;
-  alt: string;
-  width: string | number;
-  height: string | number;
-}
+export type ImagePosition = "below" | "right";
 
 interface Props {
   mainTextBody?: string;
@@ -15,25 +11,26 @@ interface Props {
   headerText?: string;
   images?: ImageProps[];
   pricingList?: string[];
-  imagePosition?: "below" | "right";
+  imagePosition?: ImagePosition;
 }
 
 export const Paragraph = ({
   mainTextBody,
   secondaryText,
   headerText,
-  images,
+  images = [],
   pricingList,
   imagePosition = "below",
 }: Props): ReactElement => {
-  const below = imagePosition === 'below'
+  const below = imagePosition === "below";
+
   return (
     <Box
       display="flex"
       flexDirection={below ? "column" : "row"}
       flexWrap="wrap"
     >
-      <Box >
+      <Box>
         {headerText && <Typography variant="h6">{headerText}</Typography>}
         {mainTextBody && <Typography>{mainTextBody}</Typography>}
         {pricingList && (
@@ -46,25 +43,19 @@ export const Paragraph = ({
         {secondaryText && <Typography>{secondaryText}</Typography>}
       </Box>
       <Box>
-        {images && (
-          <Box
-            display="flex"
-            flexDirection={below ? "row" : "column"}
-            flexWrap="wrap"
-            alignItems="center"
-            justifyContent="space-around"
-          >
-            {images.map(({ src, alt, width, height }, idx) => (
-              <Box padding={2} key={idx + src} display="inline-block">
-                <Image
-                  src={src}
-                  alt={alt}
-                  width={Number(width)}
-                  height={Number(height)}
-                />
-              </Box>
+        {images.length > 0 && (
+          <Grid container alignItems={"center"}>
+            {images.map(({ src, alt, height, width }, idx) => (
+              <ImageGridItem
+                imagePosition={imagePosition}
+                key={idx + src}
+                src={src}
+                alt={alt}
+                width={width}
+                height={height}
+              />
             ))}
-          </Box>
+          </Grid>
         )}
       </Box>
     </Box>
