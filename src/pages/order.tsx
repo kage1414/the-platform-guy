@@ -1,5 +1,5 @@
 import { MenuBar } from "@/components/MenuBar";
-import { PlatformPage } from "@/components/PlatformPage";
+import { OrderPage } from "@/components/OrderPage";
 import { Paper } from "@mui/material";
 import { ReactElement } from "react";
 
@@ -8,7 +8,7 @@ export default function Platform(): ReactElement {
     <>
       <Paper>
         <MenuBar />
-        <PlatformPage />
+        <OrderPage />
       </Paper>
     </>
   );

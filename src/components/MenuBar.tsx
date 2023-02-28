@@ -5,7 +5,12 @@ import { ReactElement } from "react";
 export const MenuBar = (): ReactElement => {
   return (
     <Box>
-      <AppBar position="sticky">
+      <AppBar
+        position="sticky"
+        style={{
+          backgroundImage: `url('/wood-pattern.png')`,
+        }}
+      >
         <Toolbar>
           <Box
             display="flex"
@@ -22,32 +27,31 @@ export const MenuBar = (): ReactElement => {
             </Box>
             <Box display="flex">
               <Link href={"/"}>
-                <Button sx={{ color: "white" }}>
+                <Button sx={{ color: "white" }} disableRipple>
                   <Typography padding={1}>Home</Typography>
                 </Button>
               </Link>
-              <Link href={"/platforms"}>
-                <Button sx={{ color: "white" }}>
-                  <Typography padding={1}>Platforms</Typography>
+              <Link href={"/order"}>
+                <Button sx={{ color: "white" }} disableRipple>
+                  <Typography padding={1}>Order</Typography>
                 </Button>
               </Link>
               <Link href={"/about"}>
-                <Button sx={{ color: "white" }}>
+                <Button sx={{ color: "white" }} disableRipple>
                   <Typography padding={1}>About</Typography>
                 </Button>
               </Link>
               <Link href={"/photos"}>
-                <Button sx={{ color: "white" }}>
+                <Button sx={{ color: "white" }} disableRipple>
                   <Typography padding={1}>Photos</Typography>
                 </Button>
               </Link>
               <Link href={"/contact"}>
-                <Button sx={{ color: "white" }}>
+                <Button sx={{ color: "white" }} disableRipple>
                   <Typography padding={1}>Contact</Typography>
                 </Button>
               </Link>
             </Box>
-            <Box></Box>
           </Box>
         </Toolbar>
       </AppBar>

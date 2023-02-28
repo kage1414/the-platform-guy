@@ -1,18 +1,19 @@
+import AddressForm from "./AddressForm";
 import { PageContainer } from "./PageContainer";
 import { Paragraph } from "./Paragraph";
 import { ReactElement } from "react";
 
-export const PlatformPage = (): ReactElement => {
+export const OrderPage = (): ReactElement => {
   return (
     <PageContainer>
       <Paragraph
         mainTextBody="Our platforms are made to precise measurements into one of 3 pre-defined dimensions or custom measurements."
-        secondaryText="The above sizes take 2 weeks to build. However, for a custom size, we generally take about 3 weeks."
+        secondaryText="The above sizes take 2 weeks to build. Custom sizes take 3-4 weeks."
         pricingList={[
-          "< 1300 sq/in- $350",
-          " 1300 - 1399 sq/in - $400",
-          "1400 - 1999 sq/in - $450",
-          "2000 sq/in and up - call",
+          `24" x 60" - $350`,
+          `32" x 68" - $400`,
+          `36" x 75" - $450`,
+          `Custom - quote`,
         ]}
         images={[
           {
@@ -24,6 +25,7 @@ export const PlatformPage = (): ReactElement => {
         ]}
         imagePosition="right"
       />
+      <AddressForm />
     </PageContainer>
   );
 };
