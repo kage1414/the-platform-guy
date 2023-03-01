@@ -1,4 +1,4 @@
-import { Box, Paper } from "@mui/material";
+import { Box, Container, Paper } from "@mui/material";
 import { PropsWithChildren, ReactElement } from "react";
 
 export const PageContainer = ({
@@ -7,9 +7,9 @@ export const PageContainer = ({
   return (
     <Paper>
       <Box display="flex" justifyContent={"center"}>
-        <Box padding={3} width="85vw">
+        <Container maxWidth="md" sx={{ padding: 3 }}>
           {children}
-        </Box>
+        </Container>
       </Box>
     </Paper>
   );
