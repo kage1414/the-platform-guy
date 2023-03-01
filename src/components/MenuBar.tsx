@@ -46,11 +46,6 @@ export const MenuBar = (): ReactElement => {
                   <Typography padding={1}>Photos</Typography>
                 </Button>
               </Link>
-              <Link href={"/contact"}>
-                <Button sx={{ color: "white" }} disableRipple>
-                  <Typography padding={1}>Contact</Typography>
-                </Button>
-              </Link>
             </Box>
           </Box>
         </Toolbar>
