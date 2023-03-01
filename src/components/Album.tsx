@@ -64,7 +64,6 @@ export default function Album({ images, enlargable = true }: Props) {
                   <Dialog
                     open={openImage === src}
                     onClose={() => {
-                      console.log("attempting to closde");
                       setOpenImage(null);
                     }}
                   >
