@@ -13,9 +13,13 @@ export default function handler(
   const { method, body } = req;
   switch (method) {
     case "POST": {
-      sendEmail(body).then(() => {
-        res.status(200).end();
-      });
+      sendEmail(body)
+        .then(() => {
+          res.status(200).end();
+        })
+        .catch((err) => {
+          res.status(500).json(err);
+        });
       break;
     }
     default: {
