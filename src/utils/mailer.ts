@@ -1,8 +1,8 @@
-import { escape } from "lodash";
 import { PlatformSizes } from "./PlatformSizes";
 import { emailTemplate } from "./emailTemplate";
+import { escape } from "lodash";
 import * as nodemailer from "nodemailer";
-import { phone } from 'phone'
+import { phone } from "phone";
 
 const { SENDER_EMAIL, SENDER_SECURE_MAIL_KEY, RECEIVER_EMAIL } = process.env;
 
@@ -22,20 +22,19 @@ interface MailerArgs {
 }
 
 export const sendEmail = async ({
-    firstName,
-    lastName,
-    addressLineOne,
-    addressLineTwo,
-    city,
-    stateProvinceRegion,
-    zipPostalCode,
-    country,
-    comments,
-    platformSize,
-    phoneNumber,
-    email,
-  }: MailerArgs) => {
-
+  firstName,
+  lastName,
+  addressLineOne,
+  addressLineTwo,
+  city,
+  stateProvinceRegion,
+  zipPostalCode,
+  country,
+  comments,
+  platformSize,
+  phoneNumber,
+  email,
+}: MailerArgs) => {
   const emailBody = emailTemplate({
     firstName: escape(firstName),
     lastName: escape(lastName),
@@ -48,7 +47,9 @@ export const sendEmail = async ({
     // @ts-ignore
     platformSize: escape(PlatformSizes[platformSize]),
     questionsOrComments: escape(comments),
-    phoneNumber: escape(phone(phoneNumber, { country }).phoneNumber ?? undefined),
+    phoneNumber: escape(
+      phone(phoneNumber, { country }).phoneNumber ?? undefined
+    ),
     email: escape(email),
   });
 
@@ -69,5 +70,5 @@ export const sendEmail = async ({
     html: emailBody,
   });
 
-  return info.messageId;
+  return info;
 };
