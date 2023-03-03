@@ -1,4 +1,4 @@
-import { PlatformSizes } from "./PlatformSizes";
+import { getPlatformSizeFromKey } from "./PlatformSizes";
 import { emailTemplate } from "./emailTemplate";
 import { Country, State } from "country-state-city";
 import { escape, template } from "lodash";
@@ -7,8 +7,6 @@ import { phone } from "phone";
 
 const { SENDER_EMAIL, SENDER_SECURE_MAIL_KEY, RECEIVER_EMAIL, NODE_ENV } =
   process.env;
-
-console.log({ NODE_ENV });
 interface MailerArgs {
   firstName: string;
   lastName: string;
@@ -22,15 +20,17 @@ interface MailerArgs {
   platformSize: string;
   phoneNumber: string;
   email: string;
+  formType: "order" | "questionInquiry";
 }
 
 interface GetStateRegionArgs {
   stateProvinceRegion: MailerArgs["stateProvinceRegion"];
   country: MailerArgs["country"];
+  formType: MailerArgs["formType"];
 }
 
 const stateRegionErrorTemplate = template(`
-  <b>State/Province/Region:</b> <%- stateProvinceRegion%>
+  <span><b>State/Province/Region:</b> <%- stateProvinceRegion%></span>
   <div style="color: red;">State/Province/Region does not match Country. Verify address with customer.</div>
 `);
 
@@ -38,9 +38,14 @@ const stateRegionTemplate = template(`
   <span><b>State/Province/Region:</b> <%- stateProvinceRegion%> - <%- stateFullName%></span>
 `);
 
+const stateRegionTemplateInquiry = template(`
+  <span><b>State/Province/Region:</b></span>
+`);
+
 const getStateRegion = ({
   stateProvinceRegion,
   country,
+  formType,
 }: GetStateRegionArgs): string => {
   const stateFullName = State.getStateByCodeAndCountry(
     stateProvinceRegion ?? "",
@@ -49,7 +54,9 @@ const getStateRegion = ({
 
   return stateFullName
     ? stateRegionTemplate({ stateProvinceRegion, stateFullName })
-    : stateRegionErrorTemplate({ stateProvinceRegion });
+    : formType === "order"
+    ? stateRegionErrorTemplate({ stateProvinceRegion })
+    : stateRegionTemplateInquiry();
 };
 
 export const sendEmail = async ({
@@ -65,8 +72,13 @@ export const sendEmail = async ({
   platformSize,
   phoneNumber,
   email,
+  formType,
 }: MailerArgs) => {
-  const stateFullNameEscaped = getStateRegion({ stateProvinceRegion, country });
+  const stateFullNameEscaped = getStateRegion({
+    stateProvinceRegion,
+    country,
+    formType,
+  });
   const countryFullName =
     Country.getCountryByCode(country ?? "")?.name ?? "Country not found";
   const phoneFormatted =
@@ -81,14 +93,13 @@ export const sendEmail = async ({
     stateProvinceRegion: stateFullNameEscaped,
     zipPostalCode: zipPostalCode,
     country: countryFullName,
-    // @ts-ignore
-    platformSize: PlatformSizes[platformSize],
+    platformSize: getPlatformSizeFromKey(platformSize),
     questionsOrComments: comments,
     phoneNumber: phoneFormatted,
     email: email,
   });
 
-  let transporter = nodemailer.createTransport({
+  const transporter = nodemailer.createTransport({
     host: "outbound.att.net",
     port: 465,
     secure: true,
@@ -98,14 +109,20 @@ export const sendEmail = async ({
     },
   });
 
-  let info = await transporter.sendMail({
-    from: `"ThePlatformGuy.com" <${SENDER_EMAIL}>`,
-    to: `${RECEIVER_EMAIL}`,
-    subject: `${
-      NODE_ENV === "development" ? "TEST " : ""
-    }Platform order from: ${escape(firstName)} ${escape(lastName)}`,
-    html: emailBody,
-  });
-
-  return info;
+  await transporter
+    .sendMail({
+      from: `"ThePlatformGuy.com" <${SENDER_EMAIL}>`,
+      to: `${RECEIVER_EMAIL}`,
+      subject: `${NODE_ENV === "development" ? "TEST " : ""}Platform ${
+        formType === "order" ? "Order" : "Inquiry"
+      } from: ${escape(firstName)} ${escape(lastName)}`,
+      html: emailBody,
+    })
+    .then((response) => {
+      return response;
+    })
+    .catch((err) => {
+      console.error(err);
+      throw err;
+    });
 };
