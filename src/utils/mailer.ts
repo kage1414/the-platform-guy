@@ -1,4 +1,5 @@
 import { escape } from "lodash";
+import { PlatformSizes } from "./PlatformSizes";
 import { emailTemplate } from "./emailTemplate";
 import * as nodemailer from "nodemailer";
 import { phone } from 'phone'
@@ -18,13 +19,6 @@ interface MailerArgs {
   platformSize: string;
   phoneNumber: string;
   email: string;
-}
-
-const PlatformSizes = {
-  s: `24" x 60" - $350`,
-  m: `32" x 68" - $400`,
-  l: `36" x 75" - $450`,
-  c: `Custom - quote`,
 }
 
 export const sendEmail = async ({
