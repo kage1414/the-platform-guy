@@ -11,6 +11,10 @@ const Images: ImageProps[] = [
     alt: "Ski Nautique",
   },
   {
+    src: "/platformInWater.JPG",
+    alt: "Platform in Water",
+  },
+  {
     src: "/angledPlatform.png",
     alt: "Angled Platform",
   },
@@ -19,8 +23,16 @@ const Images: ImageProps[] = [
     alt: "Vertical Platform",
   },
   {
-    src: "/dash.png",
-    alt: "Dashboard",
+    src: "/platformOnLawn.JPEG",
+    alt: "Platform On Lawn",
+  },
+  {
+    src: "satinPlatform.jpg",
+    alt: "Finished Platform Left",
+  },
+  {
+    src: "/finishedPlatform.JPEG",
+    alt: "Finished Platform Right",
   },
 ];
 
@@ -29,10 +41,7 @@ export const PhotoPage = (): ReactElement => {
     <PageContainer>
       <Box>
         <Paragraph
-          mainTextBody={`Enjoy some additional photos of platforms and dashboards as well.
-              If you have any questions about any of these and how they can be
-              used as a sample for the platform you need, please refer to the
-              number or name of the photo.`}
+          mainTextBody={`Enjoy some additional photos of my platforms.`}
         />
         <Album images={Images} />
       </Box>
