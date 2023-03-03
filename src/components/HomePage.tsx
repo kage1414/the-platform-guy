@@ -1,7 +1,8 @@
 import Album from "./Album";
+import { DividerPadding } from "./DividerPadding";
 import { PageContainer } from "./PageContainer";
 import { Paragraph } from "./Paragraph";
-import { Divider, Typography, Container } from "@mui/material";
+import { Typography, Container } from "@mui/material";
 import moment from "moment";
 import Link from "next/link";
 import { ReactElement } from "react";
@@ -22,8 +23,7 @@ export const HomePage = (): ReactElement => {
             brands. All of my platforms are built using Jatoba, West 
             systems epoxy, and stainless steel screws.`}
       />
-      <Divider />
-      <br />
+      <DividerPadding />
       <Link href="/about">
         <Container maxWidth="sm">
           <Typography color="secondary" variant="h5" align="center">
