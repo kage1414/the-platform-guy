@@ -3,6 +3,7 @@
   "parser": "@typescript-eslint/parser",
   "plugins": ["prettier"],
   "rules": {
-    "prettier/prettier": ["error"]
+    "prettier/prettier": ["error"],
+    "@typescript-eslint/no-unused-vars": true
   }
 }
