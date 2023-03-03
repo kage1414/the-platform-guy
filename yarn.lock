@@ -647,6 +647,11 @@
   resolved "https://registry.yarnpkg.com/@types/country-list/-/country-list-2.1.1.tgz#382f9fb48d9639c11475832740e418aa31db67c7"
   integrity sha512-maNkQzgLbyoi5mwwAL0KCb6l5/rn02N9y/CIBf4AYPrJ0pU2AvUTQ5LOw6GA4AAPrtiL44LWiwXzybUAUUYA3Q==
 
+"@types/countryjs@^1.8.1":
+  version "1.8.1"
+  resolved "https://registry.yarnpkg.com/@types/countryjs/-/countryjs-1.8.1.tgz#88378c260964db022172a125877abc94b5709da6"
+  integrity sha512-9CbNHKcn6EZZBezI/vxLIGZz48P2AStgxmDN5T3i4A49cVaoAjZB8MEZDFQ/93hTbWVVKMnm2rslMjVQmQ+V6Q==
+
 "@types/email-validator@^1.0.6":
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/@types/email-validator/-/email-validator-1.0.6.tgz#d555e53c826ac75e0205305f33ff47fc46930cd3"
@@ -1120,10 +1125,10 @@ cosmiconfig@^7.0.0:
     path-type "^4.0.0"
     yaml "^1.10.0"
 
-country-list@^2.3.0:
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/country-list/-/country-list-2.3.0.tgz#1e7ceaf9834c1d1210054301eabf4dc445ab978c"
-  integrity sha512-qZk66RlmQm7fQjMYWku1AyjlKPogjPEorAZJG88owPExoPV8EsyCcuFLvO2afTXHEhi9liVOoyd+5A6ZS5QwaA==
+country-state-city@^3.1.2:
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/country-state-city/-/country-state-city-3.1.2.tgz#8b155a1bb17aaf03bac4193382e59c161f74f063"
+  integrity sha512-qpzY7GyzqgJsx5TQUak0ryhbMcn1bLN1mgQc37EWkJMOEbszrAMowjzmisnf8ybhLBnbesZ1LK3KTc7SUX1T1w==
 
 create-require@^1.1.0:
   version "1.1.1"

@@ -23,18 +23,21 @@ export const emailTemplate = template(`
   <div>
     <b>Country:</b> <%= country%>
   </div>
+    <br>
   <div>
     <b>Phone:</b> <%= phoneNumber%>
   </div>
   <div>
     <b>Email:</b> <%= email%>
   </div>
+    <br>
   <div>
     <b>Platform Size:</b> <%= platformSize%>
   </div>
+  <br>
   <div>
     <b>Questions or Comments:</b>
-    <div style="width: 40%;">
+    <div style="width: 75%;">
       <%= questionsOrComments%>
     </div>
   </div>
