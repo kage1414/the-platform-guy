@@ -4,8 +4,6 @@ import {
   CardContent,
   CardMedia,
   Container,
-  CardActions,
-  Button,
   Grid,
   Dialog,
 } from "@mui/material";
@@ -34,6 +32,8 @@ export default function Album({ images, enlargable = true }: Props) {
               sx={{
                 height: "100%",
                 display: "flex",
+                cursor: "pointer",
+                padding: 1,
                 flexDirection: "column",
                 justifyContent: "center",
               }}
@@ -47,20 +47,16 @@ export default function Album({ images, enlargable = true }: Props) {
                 }
               }}
             >
-              <CardMedia component="img" src={src} alt={alt} />
-              <CardContent sx={{ flexGrow: 1 }}>
-                <Typography>{description}</Typography>
-              </CardContent>
-              {enlargable && (
-                <CardActions>
-                  <Button
-                    size="small"
-                    onClick={() => {
-                      setOpenImage(src);
-                    }}
-                  >
-                    View
-                  </Button>
+              <Container>
+                <CardMedia component="img" src={src} alt={alt} />
+              </Container>
+              <Container>
+                {description && (
+                  <CardContent sx={{ flexGrow: 1 }}>
+                    <Typography>{description}</Typography>
+                  </CardContent>
+                )}
+                {enlargable && (
                   <Dialog
                     open={openImage === src}
                     onClose={() => {
@@ -71,8 +67,8 @@ export default function Album({ images, enlargable = true }: Props) {
                       <CardMedia component="img" src={src} alt={alt} />
                     </Container>
                   </Dialog>
-                </CardActions>
-              )}
+                )}
+              </Container>
             </Card>
           </Grid>
         ))}

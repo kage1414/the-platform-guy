@@ -1,7 +1,8 @@
 import Album from "./Album";
+import { DividerPadding } from "./DividerPadding";
 import { PageContainer } from "./PageContainer";
 import { Paragraph } from "./Paragraph";
-import { Divider, Typography, Container } from "@mui/material";
+import { Typography, Container } from "@mui/material";
 import moment from "moment";
 import Link from "next/link";
 import { ReactElement } from "react";
@@ -17,13 +18,12 @@ export const HomePage = (): ReactElement => {
       />
       <Paragraph
         mainTextBody={`My name is Mark. I've been building
-            swim platforms for ${years}, focusing on Correct Craft Boats. I am
-            expanding my business to other ski boats. All of my platforms are
-            built using Jatoba, West systems epoxy, and stainless steel
-            screws.`}
+            swim platforms for ${years}. I specialize in Correct Craft 
+            boats, but can build platforms for all major ski and wake boat 
+            brands. All of my platforms are built using Jatoba, West 
+            systems epoxy, and stainless steel screws.`}
       />
-      <Divider />
-      <br />
+      <DividerPadding />
       <Link href="/about">
         <Container maxWidth="sm">
           <Typography color="secondary" variant="h5" align="center">
