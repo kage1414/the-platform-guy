@@ -1,11 +1,14 @@
 import { PlatformSizes } from "./PlatformSizes";
 import { emailTemplate } from "./emailTemplate";
-import { escape } from "lodash";
+import { Country, State } from "country-state-city";
+import { escape, template } from "lodash";
 import * as nodemailer from "nodemailer";
 import { phone } from "phone";
 
-const { SENDER_EMAIL, SENDER_SECURE_MAIL_KEY, RECEIVER_EMAIL } = process.env;
+const { SENDER_EMAIL, SENDER_SECURE_MAIL_KEY, RECEIVER_EMAIL, NODE_ENV } =
+  process.env;
 
+console.log({ NODE_ENV });
 interface MailerArgs {
   firstName: string;
   lastName: string;
@@ -21,6 +24,34 @@ interface MailerArgs {
   email: string;
 }
 
+interface GetStateRegionArgs {
+  stateProvinceRegion: MailerArgs["stateProvinceRegion"];
+  country: MailerArgs["country"];
+}
+
+const stateRegionErrorTemplate = template(`
+  <b>State/Province/Region:</b> <%- stateProvinceRegion%>
+  <div style="color: red;">State/Province/Region does not match Country. Verify address with customer.</div>
+`);
+
+const stateRegionTemplate = template(`
+  <span><b>State/Province/Region:</b> <%- stateProvinceRegion%> - <%- stateFullName%></span>
+`);
+
+const getStateRegion = ({
+  stateProvinceRegion,
+  country,
+}: GetStateRegionArgs): string => {
+  const stateFullName = State.getStateByCodeAndCountry(
+    stateProvinceRegion ?? "",
+    country
+  )?.name;
+
+  return stateFullName
+    ? stateRegionTemplate({ stateProvinceRegion, stateFullName })
+    : stateRegionErrorTemplate({ stateProvinceRegion });
+};
+
 export const sendEmail = async ({
   firstName,
   lastName,
@@ -35,22 +66,26 @@ export const sendEmail = async ({
   phoneNumber,
   email,
 }: MailerArgs) => {
+  const stateFullNameEscaped = getStateRegion({ stateProvinceRegion, country });
+  const countryFullName =
+    Country.getCountryByCode(country ?? "")?.name ?? "Country not found";
+  const phoneFormatted =
+    phone(phoneNumber, { country }).phoneNumber ?? undefined;
+
   const emailBody = emailTemplate({
-    firstName: escape(firstName),
-    lastName: escape(lastName),
-    addressLineOne: escape(addressLineOne),
-    addressLineTwo: escape(addressLineTwo),
-    city: escape(city),
-    stateProvinceRegion: escape(stateProvinceRegion),
-    zipPostalCode: escape(zipPostalCode),
-    country: escape(country),
+    firstName: firstName,
+    lastName: lastName,
+    addressLineOne: addressLineOne,
+    addressLineTwo: addressLineTwo,
+    city: city,
+    stateProvinceRegion: stateFullNameEscaped,
+    zipPostalCode: zipPostalCode,
+    country: countryFullName,
     // @ts-ignore
-    platformSize: escape(PlatformSizes[platformSize]),
-    questionsOrComments: escape(comments),
-    phoneNumber: escape(
-      phone(phoneNumber, { country }).phoneNumber ?? undefined
-    ),
-    email: escape(email),
+    platformSize: PlatformSizes[platformSize],
+    questionsOrComments: comments,
+    phoneNumber: phoneFormatted,
+    email: email,
   });
 
   let transporter = nodemailer.createTransport({
@@ -65,8 +100,10 @@ export const sendEmail = async ({
 
   let info = await transporter.sendMail({
     from: `"ThePlatformGuy.com" <${SENDER_EMAIL}>`,
-    to: `"${RECEIVER_EMAIL}`,
-    subject: `Platform order from: ${escape(firstName)} ${escape(lastName)}`,
+    to: `${RECEIVER_EMAIL}`,
+    subject: `${
+      NODE_ENV === "development" ? "TEST " : ""
+    }Platform order from: ${escape(firstName)} ${escape(lastName)}`,
     html: emailBody,
   });
 
