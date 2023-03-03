@@ -1,3 +1,5 @@
+import { validate } from "@/utils/validate";
+import { CircularProgress } from "@mui/material";
 import {
   Button,
   FormControl,
@@ -9,6 +11,7 @@ import {
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
+import axios from "axios";
 import { getData } from "country-list";
 import { ReactElement, useState } from "react";
 
@@ -40,6 +43,52 @@ export default function AddressForm() {
   const [country, setCountry] = useState<string>("US");
   const [comments, setComments] = useState<string>("");
   const [platformSize, setPlatformSize] = useState<string>("");
+  const [phoneNumber, setPhoneNumber] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const handleSend = () => {
+    console.log("handleSend");
+    setError(false);
+    if (
+      validate({
+        firstName,
+        lastName,
+        addressLineOne,
+        city,
+        zipPostalCode,
+        country,
+        platformSize,
+        phoneNumber,
+        email,
+      })
+    ) {
+      console.log("sending order");
+      setLoading(true);
+      axios
+        .post("/api/order", {
+          firstName,
+          lastName,
+          addressLineOne,
+          addressLineTwo,
+          city,
+          stateProvinceRegion,
+          zipPostalCode,
+          country,
+          comments,
+          platformSize,
+          phoneNumber,
+          email,
+        })
+        .then(() => {
+          console.log("sent");
+          setLoading(false);
+        });
+    } else {
+      console.log("error");
+      setError(true);
+    }
+  };
   return (
     <>
       <Typography variant="h6" gutterBottom>
@@ -56,6 +105,7 @@ export default function AddressForm() {
             id="firstName"
             name="firstName"
             label="First name"
+            error={!firstName && error}
             fullWidth
             autoComplete="given-name"
             variant="standard"
@@ -71,6 +121,7 @@ export default function AddressForm() {
             id="lastName"
             name="lastName"
             label="Last name"
+            error={!lastName && error}
             fullWidth
             autoComplete="family-name"
             variant="standard"
@@ -86,6 +137,7 @@ export default function AddressForm() {
             id="address1"
             name="address1"
             label="Address line 1"
+            error={!addressLineOne && error}
             fullWidth
             autoComplete="shipping address-line1"
             variant="standard"
@@ -115,6 +167,7 @@ export default function AddressForm() {
             id="city"
             name="city"
             label="City"
+            error={!city && error}
             fullWidth
             autoComplete="shipping address-level2"
             variant="standard"
@@ -143,6 +196,7 @@ export default function AddressForm() {
             id="zip"
             name="zip"
             label="Zip / Postal code"
+            error={!zipPostalCode && error}
             fullWidth
             autoComplete="shipping postal-code"
             variant="standard"
@@ -159,6 +213,7 @@ export default function AddressForm() {
               id="country"
               labelId="countryLabel"
               label="Country"
+              error={!country && error}
               value={country}
               onChange={(e) => {
                 setCountry(e.target.value);
@@ -168,10 +223,45 @@ export default function AddressForm() {
             </Select>
           </FormControl>
         </Grid>
+        <Grid item xs={12} sm={6}>
+          <TextField
+            required
+            id="phone"
+            name="phone"
+            label="Phone"
+            type="tel"
+            error={!phoneNumber && error}
+            fullWidth
+            autoComplete="billing tel-national"
+            variant="standard"
+            value={phoneNumber}
+            onChange={(e) => {
+              setPhoneNumber(e.target.value);
+            }}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <TextField
+            required
+            id="email"
+            name="email"
+            label="Email"
+            type="email"
+            error={!email && error}
+            fullWidth
+            autoComplete="billing email"
+            variant="standard"
+            value={email}
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
+          />
+        </Grid>
         <Grid item xs={12}>
           <FormControl sx={{ width: "10em" }}>
             <InputLabel id="platformSizeLabel">Platform Size</InputLabel>
             <Select
+              required
               id="platformSize"
               labelId="platformSizeLabel"
               label="Platform Size"
@@ -179,6 +269,7 @@ export default function AddressForm() {
               onChange={(e) => {
                 setPlatformSize(e.target.value);
               }}
+              error={!platformSize && error}
             >
               <MenuItem value="s">{`24" x 60" - $350`}</MenuItem>
               <MenuItem value="m">{`32" x 68" - $400`}</MenuItem>
@@ -203,7 +294,21 @@ export default function AddressForm() {
           </FormHelperText>
         </Grid>
         <Grid item xs={12}>
-          <Button variant="contained">Send</Button>
+          {error && (
+            <Typography color="error">
+              Please fill out the required fields
+            </Typography>
+          )}
+        </Grid>
+        <Grid item xs={12}>
+          <Button
+            variant="contained"
+            onClick={handleSend}
+            disabled={loading}
+            sx={{ width: 70 }}
+          >
+            {loading ? <CircularProgress size={24} /> : "Send"}
+          </Button>
         </Grid>
       </Grid>
     </>
