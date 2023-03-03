@@ -1,3 +1,4 @@
+import { PlatformSizes } from "@/utils/PlatformSizes";
 import { validate } from "@/utils/validate";
 import { CircularProgress } from "@mui/material";
 import {
@@ -271,10 +272,12 @@ export default function AddressForm() {
               }}
               error={!platformSize && error}
             >
-              <MenuItem value="s">{`24" x 60" - $350`}</MenuItem>
-              <MenuItem value="m">{`32" x 68" - $400`}</MenuItem>
+              {Object.entries(PlatformSizes).map(([k, v]) => 
+                <MenuItem value={k}>{v}</MenuItem>
+              )}
+              {/* <MenuItem value="m">{`32" x 68" - $400`}</MenuItem>
               <MenuItem value="l">{`36" x 75" - $450`}</MenuItem>
-              <MenuItem value="c">{`Custom - quote`}</MenuItem>
+              <MenuItem value="c">{`Custom - quote`}</MenuItem> */}
             </Select>
           </FormControl>
         </Grid>
