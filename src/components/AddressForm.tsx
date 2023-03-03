@@ -1,5 +1,4 @@
 import { PlatformSizes } from "@/utils/PlatformSizes";
-import { validate } from "@/utils/validate";
 import { CircularProgress } from "@mui/material";
 import {
   Button,
@@ -14,7 +13,24 @@ import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import axios from "axios";
 import { Country, ICountry, IState, State } from "country-state-city";
-import { ReactElement, useState } from "react";
+import * as emailValidator from "email-validator";
+import { phone } from "phone";
+import { ReactElement, useEffect, useState } from "react";
+
+interface ValidateArgs {
+  firstName: string;
+  lastName: string;
+  addressLineOne: string;
+  addressLineTwo?: string;
+  city: string;
+  stateProvinceRegion?: string;
+  zipPostalCode: string;
+  country: string;
+  comments?: string;
+  platformSize: string;
+  phoneNumber: string;
+  email: string;
+}
 
 const sortCountryStateAlphabetically = (
   { name: a }: ICountry | IState,
@@ -67,7 +83,12 @@ export default function AddressForm() {
   const [phoneNumber, setPhoneNumber] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [error, setError] = useState(false);
+  const [phoneError, setPhoneError] = useState(false);
+  const [emailError, setEmailError] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [sent, setSent] = useState(false);
+  const [fieldsDisabled, setFieldsDisabled] = useState(loading || sent);
+
   const handleSend = () => {
     setError(false);
     if (
@@ -101,19 +122,50 @@ export default function AddressForm() {
         })
         .then(() => {
           setLoading(false);
+          setSent(true);
         });
     } else {
       setError(true);
     }
   };
+
+  const validate = ({
+    firstName,
+    lastName,
+    addressLineOne,
+    city,
+    zipPostalCode,
+    country,
+    platformSize,
+    phoneNumber,
+    email,
+  }: ValidateArgs): boolean => {
+    const nameProvided = Boolean(firstName || lastName);
+    const fullAddressProvided = Boolean(
+      addressLineOne && city && zipPostalCode && country
+    );
+    const emailValid = emailValidator.validate(email);
+    setEmailError(!emailValid);
+    const { isValid: phoneValid } = phone(phoneNumber);
+    setPhoneError(!phoneValid);
+    const platformSizeSelected = !!platformSize;
+
+    return (
+      nameProvided &&
+      fullAddressProvided &&
+      emailValid &&
+      phoneValid &&
+      platformSizeSelected
+    );
+  };
+
+  useEffect(() => {
+    setFieldsDisabled(sent || loading);
+  }, [sent, loading]);
   return (
     <>
       <Typography variant="h6" gutterBottom>
         Contact/Order Form
-      </Typography>
-      <Typography variant="subtitle1">
-        Please fill out the form with orders or questions. We will reply quickly
-        by phone or email.
       </Typography>
       <Grid container spacing={3}>
         <Grid item xs={12} sm={6}>
@@ -127,6 +179,7 @@ export default function AddressForm() {
             autoComplete="given-name"
             variant="standard"
             value={firstName}
+            disabled={fieldsDisabled}
             onChange={(e) => {
               setFirstName(e.target.value);
             }}
@@ -143,6 +196,7 @@ export default function AddressForm() {
             autoComplete="family-name"
             variant="standard"
             value={lastName}
+            disabled={fieldsDisabled}
             onChange={(e) => {
               setLastName(e.target.value);
             }}
@@ -159,6 +213,7 @@ export default function AddressForm() {
             autoComplete="shipping address-line1"
             variant="standard"
             value={addressLineOne}
+            disabled={fieldsDisabled}
             onChange={(e) => {
               setAddressLineOne(e.target.value);
             }}
@@ -173,6 +228,7 @@ export default function AddressForm() {
             autoComplete="shipping address-line2"
             variant="standard"
             value={addressLineTwo}
+            disabled={fieldsDisabled}
             onChange={(e) => {
               setAddressLineTwo(e.target.value);
             }}
@@ -189,6 +245,7 @@ export default function AddressForm() {
             autoComplete="shipping address-level2"
             variant="standard"
             value={city}
+            disabled={fieldsDisabled}
             onChange={(e) => {
               setCity(e.target.value);
             }}
@@ -203,6 +260,7 @@ export default function AddressForm() {
               labelId="stateLabel"
               label="State/Province/Region"
               value={stateProvinceRegion}
+              disabled={fieldsDisabled}
               onChange={(e) => {
                 setStateProvinceRegion(e.target.value);
               }}
@@ -222,6 +280,7 @@ export default function AddressForm() {
             autoComplete="shipping postal-code"
             variant="standard"
             value={zipPostalCode}
+            disabled={fieldsDisabled}
             onChange={(e) => {
               setZipPostalCode(e.target.value);
             }}
@@ -236,6 +295,7 @@ export default function AddressForm() {
               label="Country"
               error={!country && error}
               value={country}
+              disabled={fieldsDisabled}
               onChange={(e) => {
                 setCountry(e.target.value);
               }}
@@ -251,11 +311,12 @@ export default function AddressForm() {
             name="phone"
             label="Phone"
             type="tel"
-            error={!phoneNumber && error}
+            error={(!phoneNumber && error) || phoneError}
             fullWidth
             autoComplete="billing tel-national"
             variant="standard"
             value={phoneNumber}
+            disabled={fieldsDisabled}
             onChange={(e) => {
               setPhoneNumber(e.target.value);
             }}
@@ -268,11 +329,12 @@ export default function AddressForm() {
             name="email"
             label="Email"
             type="email"
-            error={!email && error}
+            error={(!email && error) || emailError}
             fullWidth
             autoComplete="billing email"
             variant="standard"
             value={email}
+            disabled={fieldsDisabled}
             onChange={(e) => {
               setEmail(e.target.value);
             }}
@@ -287,6 +349,7 @@ export default function AddressForm() {
               labelId="platformSizeLabel"
               label="Platform Size"
               value={platformSize}
+              disabled={fieldsDisabled}
               onChange={(e) => {
                 setPlatformSize(e.target.value);
               }}
@@ -307,6 +370,7 @@ export default function AddressForm() {
             rows={8}
             fullWidth
             value={comments}
+            disabled={fieldsDisabled}
             onChange={(e) => {
               setComments(e.target.value);
             }}
@@ -316,9 +380,20 @@ export default function AddressForm() {
           </FormHelperText>
         </Grid>
         <Grid item xs={12}>
-          {error && (
+          {error ? (
             <Typography color="error">
               Please fill out the required fields
+            </Typography>
+          ) : sent ? (
+            <Typography color="secondary">
+              Request sent! We will contact you within the next few days
+            </Typography>
+          ) : loading ? (
+            <Typography color="secondary">Sending...</Typography>
+          ) : (
+            <Typography color="secondary">
+              Please fill out the form with orders or questions. We will reply
+              by phone or email
             </Typography>
           )}
         </Grid>
