@@ -1,7 +1,7 @@
 import Album from "./Album";
 import { PageContainer } from "./PageContainer";
 import { Paragraph } from "./Paragraph";
-import { Divider } from "@mui/material";
+import { Divider, Typography, Container } from "@mui/material";
 import moment from "moment";
 import Link from "next/link";
 import { ReactElement } from "react";
@@ -23,11 +23,19 @@ export const HomePage = (): ReactElement => {
             screws.`}
       />
       <Divider />
+      <br />
       <Link href="/about">
-        <Paragraph subHeaderText="Our Platforms" />
+        <Container maxWidth="sm">
+          <Typography color="secondary" variant="h5" align="center">
+            Our Platforms
+          </Typography>
+        </Container>
       </Link>
+      <br />
       <Link href="/order">
-        <Paragraph subHeaderText="Place an Order" />
+        <Typography color="secondary" variant="h5" align="center">
+          Place an Order
+        </Typography>
       </Link>
     </PageContainer>
   );
