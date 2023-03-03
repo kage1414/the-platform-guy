@@ -4,8 +4,6 @@ import {
   CardContent,
   CardMedia,
   Container,
-  CardActions,
-  Button,
   Grid,
   Dialog,
 } from "@mui/material";
