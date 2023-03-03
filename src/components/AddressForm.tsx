@@ -13,21 +13,41 @@ import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import axios from "axios";
-import { getData } from "country-list";
+import { Country, ICountry, IState, State } from "country-state-city";
 import { ReactElement, useState } from "react";
 
+const sortCountryStateAlphabetically = (
+  { name: a }: ICountry | IState,
+  { name: b }: ICountry | IState
+) => {
+  if (a < b) {
+    return -1;
+  }
+  if (a > b) {
+    return 1;
+  }
+  return 0;
+};
+
 const getCountryOptions = (): ReactElement[] => {
-  const list = getData().sort(({ name: a }, { name: b }) => {
-    if (a < b) {
-      return -1;
-    }
-    if (a > b) {
-      return 1;
-    }
-    return 0;
-  });
-  return list.map(({ code, name }, idx) => (
-    <MenuItem key={`${code} ${idx}`} value={code}>
+  const list = Country.getAllCountries().sort(sortCountryStateAlphabetically);
+  return list.map(({ isoCode, name }, idx) => (
+    <MenuItem key={`${isoCode} ${idx}`} value={isoCode}>
+      {name}
+    </MenuItem>
+  ));
+};
+
+const getStateOptions = (): ReactElement[] => {
+  const usaStates = State.getStatesOfCountry("US").sort(
+    sortCountryStateAlphabetically
+  );
+  const canadaProvinces = State.getStatesOfCountry("CA").sort(
+    sortCountryStateAlphabetically
+  );
+  const statesAndProvinces = [...usaStates, ...canadaProvinces];
+  return statesAndProvinces.map(({ isoCode, name }, idx) => (
+    <MenuItem key={`${isoCode} ${idx}`} value={isoCode}>
       {name}
     </MenuItem>
   ));
@@ -49,7 +69,6 @@ export default function AddressForm() {
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
   const handleSend = () => {
-    console.log("handleSend");
     setError(false);
     if (
       validate({
@@ -64,7 +83,6 @@ export default function AddressForm() {
         email,
       })
     ) {
-      console.log("sending order");
       setLoading(true);
       axios
         .post("/api/order", {
@@ -82,11 +100,9 @@ export default function AddressForm() {
           email,
         })
         .then(() => {
-          console.log("sent");
           setLoading(false);
         });
     } else {
-      console.log("error");
       setError(true);
     }
   };
@@ -179,17 +195,21 @@ export default function AddressForm() {
           />
         </Grid>
         <Grid item xs={12} sm={6}>
-          <TextField
-            id="state"
-            name="state"
-            label="State/Province/Region"
-            fullWidth
-            variant="standard"
-            value={stateProvinceRegion}
-            onChange={(e) => {
-              setStateProvinceRegion(e.target.value);
-            }}
-          />
+          <FormControl sx={{ width: "100%" }}>
+            <InputLabel id="stateLabel">State/Province/Region</InputLabel>
+            <Select
+              id="state"
+              name="state"
+              labelId="stateLabel"
+              label="State/Province/Region"
+              value={stateProvinceRegion}
+              onChange={(e) => {
+                setStateProvinceRegion(e.target.value);
+              }}
+            >
+              {getStateOptions()}
+            </Select>
+          </FormControl>
         </Grid>
         <Grid item xs={12} sm={6}>
           <TextField
