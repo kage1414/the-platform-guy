@@ -20,8 +20,7 @@ export const HomePage = (): ReactElement => {
         mainTextBody={`My name is Mark. I've been building
             swim platforms for ${years}. I specialize in Correct Craft 
             boats, but can build platforms for all major ski and wake boat 
-            brands. All of my platforms are built using Jatoba, West 
-            systems epoxy, and stainless steel screws.`}
+            brands. All of my platforms are built using Jatoba, West System® Epoxy, and stainless steel screws.`}
       />
       <DividerPadding />
       <Link href="/about">

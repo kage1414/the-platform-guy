@@ -1,5 +1,11 @@
 import { PlatformSizes } from "@/utils/PlatformSizes";
-import { CircularProgress } from "@mui/material";
+import {
+  CircularProgress,
+  FormControlLabel,
+  FormLabel,
+  Radio,
+  RadioGroup,
+} from "@mui/material";
 import {
   Button,
   FormControl,
@@ -14,6 +20,7 @@ import Typography from "@mui/material/Typography";
 import axios from "axios";
 import { Country, ICountry, IState, State } from "country-state-city";
 import * as emailValidator from "email-validator";
+import Router from "next/router";
 import { phone } from "phone";
 import { ReactElement, useEffect, useState } from "react";
 
@@ -88,9 +95,11 @@ export default function AddressForm() {
   const [loading, setLoading] = useState(false);
   const [sent, setSent] = useState(false);
   const [fieldsDisabled, setFieldsDisabled] = useState(loading || sent);
+  const [formType, setFormType] = useState<"order" | "questionInquiry">(
+    "order"
+  );
 
   const handleSend = () => {
-    setError(false);
     if (
       validate({
         firstName,
@@ -119,13 +128,18 @@ export default function AddressForm() {
           platformSize,
           phoneNumber,
           email,
+          formType,
         })
         .then(() => {
           setLoading(false);
           setSent(true);
+          setTimeout(() => {
+            Router.push("/");
+          }, 3000);
+        })
+        .then(() => {
+          setLoading(false);
         });
-    } else {
-      setError(true);
     }
   };
 
@@ -141,23 +155,39 @@ export default function AddressForm() {
     email,
   }: ValidateArgs): boolean => {
     const nameProvided = Boolean(firstName || lastName);
-    const fullAddressProvided = Boolean(
-      addressLineOne && city && zipPostalCode && country
-    );
+    const fullAddressProvided =
+      formType === "order"
+        ? Boolean(addressLineOne && city && zipPostalCode && country)
+        : true;
     const emailValid = emailValidator.validate(email);
     setEmailError(!emailValid);
     const { isValid: phoneValid } = phone(phoneNumber);
     setPhoneError(!phoneValid);
-    const platformSizeSelected = !!platformSize;
+    const platformSizeSelected =
+      !!platformSize || formType === "questionInquiry";
+
+    setError(
+      !(
+        nameProvided &&
+        fullAddressProvided &&
+        platformSizeSelected &&
+        emailValid &&
+        phoneValid
+      )
+    );
 
     return (
       nameProvided &&
       fullAddressProvided &&
+      platformSizeSelected &&
       emailValid &&
-      phoneValid &&
-      platformSizeSelected
+      phoneValid
     );
   };
+
+  useEffect(() => {
+    console.log({ phoneError });
+  }, [phoneError]);
 
   useEffect(() => {
     setFieldsDisabled(sent || loading);
@@ -204,11 +234,11 @@ export default function AddressForm() {
         </Grid>
         <Grid item xs={12}>
           <TextField
-            required
+            required={formType === "order"}
             id="address1"
             name="address1"
             label="Address line 1"
-            error={!addressLineOne && error}
+            error={!addressLineOne && error && formType === "order"}
             fullWidth
             autoComplete="shipping address-line1"
             variant="standard"
@@ -236,11 +266,11 @@ export default function AddressForm() {
         </Grid>
         <Grid item xs={12} sm={6}>
           <TextField
-            required
+            required={formType === "order"}
             id="city"
             name="city"
             label="City"
-            error={!city && error}
+            error={!city && error && formType === "order"}
             fullWidth
             autoComplete="shipping address-level2"
             variant="standard"
@@ -271,11 +301,11 @@ export default function AddressForm() {
         </Grid>
         <Grid item xs={12} sm={6}>
           <TextField
-            required
+            required={formType === "order"}
             id="zip"
             name="zip"
             label="Zip / Postal code"
-            error={!zipPostalCode && error}
+            error={!zipPostalCode && error && formType === "order"}
             fullWidth
             autoComplete="shipping postal-code"
             variant="standard"
@@ -290,10 +320,11 @@ export default function AddressForm() {
           <FormControl sx={{ width: "100%" }}>
             <InputLabel id="countryLabel">Country</InputLabel>
             <Select
+              required={formType === "order"}
               id="country"
               labelId="countryLabel"
               label="Country"
-              error={!country && error}
+              error={!country && error && formType === "order"}
               value={country}
               disabled={fieldsDisabled}
               onChange={(e) => {
@@ -321,6 +352,9 @@ export default function AddressForm() {
               setPhoneNumber(e.target.value);
             }}
           />
+          <FormHelperText
+            error={phoneError}
+          >{`e.g. (999) 999-9999. Please enter country code if outside U.S.`}</FormHelperText>
         </Grid>
         <Grid item xs={12} sm={6}>
           <TextField
@@ -344,7 +378,7 @@ export default function AddressForm() {
           <FormControl sx={{ width: "10em" }}>
             <InputLabel id="platformSizeLabel">Platform Size</InputLabel>
             <Select
-              required
+              required={formType === "order"}
               id="platformSize"
               labelId="platformSizeLabel"
               label="Platform Size"
@@ -353,7 +387,7 @@ export default function AddressForm() {
               onChange={(e) => {
                 setPlatformSize(e.target.value);
               }}
-              error={!platformSize && error}
+              error={!platformSize && error && formType === "order"}
             >
               {Object.entries(PlatformSizes).map(([k, v], idx) => (
                 <MenuItem key={`${k} ${idx}`} value={k}>
@@ -378,6 +412,38 @@ export default function AddressForm() {
           <FormHelperText>
             Please leave any details regarding sizing or construction
           </FormHelperText>
+        </Grid>
+        <Grid item xs={12}>
+          <FormControl>
+            <FormLabel id="demo-radio-buttons-group-label">
+              Please select whether you&apos;d like to order a platform or you
+              have a question or inquiry
+            </FormLabel>
+            <RadioGroup
+              aria-labelledby="demo-radio-buttons-group-label"
+              defaultValue={"order"}
+              name="radio-buttons-group"
+              onChange={(e) => {
+                if (
+                  e.target.value === "questionInquiry" ||
+                  e.target.value === "order"
+                ) {
+                  setFormType(e.target.value);
+                }
+              }}
+            >
+              <FormControlLabel
+                value={"order"}
+                control={<Radio />}
+                label="Order"
+              />
+              <FormControlLabel
+                value={"questionInquiry"}
+                control={<Radio />}
+                label="Question/Inquiry"
+              />
+            </RadioGroup>
+          </FormControl>
         </Grid>
         <Grid item xs={12}>
           {error ? (
