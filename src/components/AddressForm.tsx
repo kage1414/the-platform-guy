@@ -272,12 +272,11 @@ export default function AddressForm() {
               }}
               error={!platformSize && error}
             >
-              {Object.entries(PlatformSizes).map(([k, v]) => 
-                <MenuItem value={k}>{v}</MenuItem>
-              )}
-              {/* <MenuItem value="m">{`32" x 68" - $400`}</MenuItem>
-              <MenuItem value="l">{`36" x 75" - $450`}</MenuItem>
-              <MenuItem value="c">{`Custom - quote`}</MenuItem> */}
+              {Object.entries(PlatformSizes).map(([k, v], idx) => (
+                <MenuItem key={`${k} ${idx}`} value={k}>
+                  {v}
+                </MenuItem>
+              ))}
             </Select>
           </FormControl>
         </Grid>
