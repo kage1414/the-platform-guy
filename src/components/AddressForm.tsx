@@ -187,10 +187,6 @@ export default function AddressForm() {
   };
 
   useEffect(() => {
-    console.log({ phoneError });
-  }, [phoneError]);
-
-  useEffect(() => {
     setFieldsDisabled(sent || loading);
   }, [sent, loading]);
   return (
