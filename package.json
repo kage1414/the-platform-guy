@@ -19,13 +19,13 @@
     "country-state-city": "^3.1.2",
     "email-validator": "^2.0.4",
     "lodash": "^4.17.21",
+    "material-ui-phone-number": "^3.0.0",
     "moment": "^2.29.4",
     "next": "13.2.1",
     "nodemailer": "^6.9.1",
     "phone": "^3.1.35",
     "react": "18.2.0",
-    "react-dom": "18.2.0",
-    "react-phone-number-input": "^3.2.19"
+    "react-dom": "18.2.0"
   },
   "devDependencies": {
     "@trivago/prettier-plugin-sort-imports": "^4.1.1",
@@ -40,7 +40,6 @@
     "@types/phone": "^2.4.1",
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
-    "@types/react-phone-number-input": "^3.0.14",
     "@typescript-eslint/eslint-plugin": "^5.54.0",
     "@typescript-eslint/parser": "^5.54.0",
     "babel-eslint": "^10.1.0",
