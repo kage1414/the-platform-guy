@@ -20,6 +20,7 @@ import Typography from "@mui/material/Typography";
 import axios from "axios";
 import { Country, ICountry, IState, State } from "country-state-city";
 import * as emailValidator from "email-validator";
+import MuiPhoneNumber from "material-ui-phone-number";
 import Router from "next/router";
 import { phone } from "phone";
 import { ReactElement, useEffect, useState } from "react";
@@ -186,10 +187,6 @@ export default function AddressForm() {
   };
 
   useEffect(() => {
-    console.log({ phoneError });
-  }, [phoneError]);
-
-  useEffect(() => {
     setFieldsDisabled(sent || loading);
   }, [sent, loading]);
   return (
@@ -305,6 +302,7 @@ export default function AddressForm() {
             id="zip"
             name="zip"
             label="Zip / Postal code"
+            type="number"
             error={!zipPostalCode && error && formType === "order"}
             fullWidth
             autoComplete="shipping postal-code"
@@ -336,25 +334,24 @@ export default function AddressForm() {
           </FormControl>
         </Grid>
         <Grid item xs={12} sm={6}>
-          <TextField
-            required
+          <MuiPhoneNumber
+            value={phoneNumber}
+            defaultCountry="us"
+            onChange={(value) => {
+              if (typeof value === "string") {
+                setPhoneNumber(value);
+              }
+            }}
+            error={(!phoneNumber && error) || phoneError}
+            type="tel"
             id="phone"
             name="phone"
             label="Phone"
-            type="tel"
-            error={(!phoneNumber && error) || phoneError}
-            fullWidth
+            fullWidth={true}
             autoComplete="billing tel-national"
             variant="standard"
-            value={phoneNumber}
             disabled={fieldsDisabled}
-            onChange={(e) => {
-              setPhoneNumber(e.target.value);
-            }}
           />
-          <FormHelperText
-            error={phoneError}
-          >{`e.g. (999) 999-9999. Please enter country code if outside U.S.`}</FormHelperText>
         </Grid>
         <Grid item xs={12} sm={6}>
           <TextField
