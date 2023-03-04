@@ -33,7 +33,7 @@ export const AboutPage = (): ReactElement => {
         ]}
       />
       <Paragraph
-        mainTextBody={`The platforms are fabricated using West System® Epoxy and stainless
+        mainTextBody={`Platforms are fabricated using West System® Epoxy and stainless
           steel screws. West systems is designed specifically for wooden boat
           construction by Gougeon Brothers Inc.`}
         headerText="West System® Epoxy"
