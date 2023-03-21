@@ -335,6 +335,7 @@ export default function AddressForm() {
         </Grid>
         <Grid item xs={12} sm={6}>
           <MuiPhoneNumber
+            required
             value={phoneNumber}
             defaultCountry="us"
             onChange={(value) => {
