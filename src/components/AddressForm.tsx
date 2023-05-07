@@ -468,7 +468,7 @@ export default function AddressForm() {
             disabled={loading}
             sx={{ width: 70 }}
           >
-            {loading ? <CircularProgress size={24} /> : "Send"}
+            {fieldsDisabled ? <CircularProgress size={24} /> : "Send"}
           </Button>
         </Grid>
       </Grid>
