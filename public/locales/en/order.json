@@ -1,0 +1,35 @@
+{
+  "measurements": "Our platforms are made into one of 3 pre-defined dimensions or custom measurements.",
+  "timeline": "The above sizes take 2-4 weeks to build.",
+  "shipping": "Platforms are crated and shipped via UPS. We will quote additional shipping charges.",
+  "form": {
+    "title": "Contact/Order Form",
+    "first-name": "First Name",
+    "last-name": "Last Name",
+    "address-1": "Address Line 1",
+    "address-2": "Address Line 2",
+    "city": "City",
+    "state": "State/Province/Region",
+    "zip": "Zip / Postal code",
+    "country": "Country",
+    "phone": "Phone",
+    "email": "Email",
+    "platform-size": "Platform Size",
+    "questions-comments": {
+      "title": "Questions or Comments",
+      "info": "Please leave any details regarding sizing or construction"
+    },
+    "radio": {
+      "description": "Please select whether you'd like to order a platform or you have a question or inquiry",
+      "order": "Order",
+      "question-inquiry": "Question/Inquiry"
+    },
+    "info": {
+      "error": "Please fill out the required fields",
+      "sent": "Request sent! We will contact you within the next few days",
+      "loading": "Sending...",
+      "default": "Please fill out the form with orders or questions. We will reply by phone or email"
+    },
+    "send-button": "Send"
+  }
+}

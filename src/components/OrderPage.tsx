@@ -4,14 +4,16 @@ import { Paragraph } from "./Paragraph";
 import { PricingList } from "./PricingList";
 import { PlatformSizes } from "@/utils/PlatformSizes";
 import { ReactElement } from "react";
+import { useTranslation } from "react-i18next";
 
 export const OrderPage = (): ReactElement => {
+  const { t } = useTranslation("order");
   return (
     <PageContainer>
-      <Paragraph mainTextBody="Our platforms are made to precise measurements into one of 3 pre-defined dimensions or custom measurements." />
+      <Paragraph mainTextBody={t("measurements")} />
       <PricingList items={Object.values(PlatformSizes)} />
-      <Paragraph mainTextBody="The above sizes take 2-4 weeks to build." />
-      <Paragraph mainTextBody="Platforms are crated and shipped via UPS. We will quote additional shipping charges." />
+      <Paragraph mainTextBody={t("timeline")} />
+      <Paragraph mainTextBody={t("shipping")} />
       <AddressForm />
     </PageContainer>
   );

@@ -24,6 +24,7 @@ import MuiPhoneNumber from "material-ui-phone-number";
 import Router from "next/router";
 import { phone } from "phone";
 import { ReactElement, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 interface ValidateArgs {
   firstName: string;
@@ -100,6 +101,8 @@ export default function AddressForm() {
     "order"
   );
 
+  const { t } = useTranslation("order");
+
   const handleSend = () => {
     if (
       validate({
@@ -116,7 +119,7 @@ export default function AddressForm() {
     ) {
       setLoading(true);
       axios
-        .post("/api/order", {
+        .post("form./api/order", {
           firstName,
           lastName,
           addressLineOne,
@@ -192,7 +195,7 @@ export default function AddressForm() {
   return (
     <>
       <Typography variant="h6" gutterBottom>
-        Contact/Order Form
+        {t("form.title")}
       </Typography>
       <Grid container spacing={3}>
         <Grid item xs={12} sm={6}>
@@ -200,7 +203,7 @@ export default function AddressForm() {
             required
             id="firstName"
             name="firstName"
-            label="First name"
+            label={t("form.first-name")}
             error={!firstName && error}
             fullWidth
             autoComplete="given-name"
@@ -217,7 +220,7 @@ export default function AddressForm() {
             required
             id="lastName"
             name="lastName"
-            label="Last name"
+            label={t("form.last-name")}
             error={!lastName && error}
             fullWidth
             autoComplete="family-name"
@@ -234,7 +237,7 @@ export default function AddressForm() {
             required={formType === "order"}
             id="address1"
             name="address1"
-            label="Address line 1"
+            label={t("form.address-1")}
             error={!addressLineOne && error && formType === "order"}
             fullWidth
             autoComplete="shipping address-line1"
@@ -250,7 +253,7 @@ export default function AddressForm() {
           <TextField
             id="address2"
             name="address2"
-            label="Address line 2"
+            label={t("form.address-2")}
             fullWidth
             autoComplete="shipping address-line2"
             variant="standard"
@@ -266,7 +269,7 @@ export default function AddressForm() {
             required={formType === "order"}
             id="city"
             name="city"
-            label="City"
+            label={t("form.city")}
             error={!city && error && formType === "order"}
             fullWidth
             autoComplete="shipping address-level2"
@@ -285,7 +288,7 @@ export default function AddressForm() {
               id="state"
               name="state"
               labelId="stateLabel"
-              label="State/Province/Region"
+              label={t("form.state")}
               value={stateProvinceRegion}
               disabled={fieldsDisabled}
               onChange={(e) => {
@@ -301,7 +304,7 @@ export default function AddressForm() {
             required={formType === "order"}
             id="zip"
             name="zip"
-            label="Zip / Postal code"
+            label={t("form.zip")}
             type="number"
             error={!zipPostalCode && error && formType === "order"}
             fullWidth
@@ -321,7 +324,7 @@ export default function AddressForm() {
               required={formType === "order"}
               id="country"
               labelId="countryLabel"
-              label="Country"
+              label={t("form.country")}
               error={!country && error && formType === "order"}
               value={country}
               disabled={fieldsDisabled}
@@ -347,7 +350,7 @@ export default function AddressForm() {
             type="tel"
             id="phone"
             name="phone"
-            label="Phone"
+            label={t("form.phone")}
             fullWidth={true}
             autoComplete="billing tel-national"
             variant="standard"
@@ -359,7 +362,7 @@ export default function AddressForm() {
             required
             id="email"
             name="email"
-            label="Email"
+            label={t("form.email")}
             type="email"
             error={(!email && error) || emailError}
             fullWidth
@@ -379,7 +382,7 @@ export default function AddressForm() {
               required={formType === "order"}
               id="platformSize"
               labelId="platformSizeLabel"
-              label="Platform Size"
+              label={t("form.platform-size")}
               value={platformSize}
               disabled={fieldsDisabled}
               onChange={(e) => {
@@ -397,7 +400,7 @@ export default function AddressForm() {
         </Grid>
         <Grid item xs={12}>
           <TextField
-            label="Questions or Comments"
+            label={t("form.questions-comments.title")}
             multiline
             rows={8}
             fullWidth
@@ -407,19 +410,16 @@ export default function AddressForm() {
               setComments(e.target.value);
             }}
           />
-          <FormHelperText>
-            Please leave any details regarding sizing or construction
-          </FormHelperText>
+          <FormHelperText>{t("form.questions-comments.info")}</FormHelperText>
         </Grid>
         <Grid item xs={12}>
           <FormControl>
             <FormLabel id="demo-radio-buttons-group-label">
-              Please select whether you&apos;d like to order a platform or you
-              have a question or inquiry
+              {t("form.radio.descriptions")}
             </FormLabel>
             <RadioGroup
               aria-labelledby="demo-radio-buttons-group-label"
-              defaultValue={"order"}
+              defaultValue="order"
               name="radio-buttons-group"
               onChange={(e) => {
                 if (
@@ -431,34 +431,27 @@ export default function AddressForm() {
               }}
             >
               <FormControlLabel
-                value={"order"}
+                value="order"
                 control={<Radio />}
-                label="Order"
+                label={t("form.radio.order")}
               />
               <FormControlLabel
-                value={"questionInquiry"}
+                value="questionInquiry"
                 control={<Radio />}
-                label="Question/Inquiry"
+                label={t("form.radio.question-inquiry")}
               />
             </RadioGroup>
           </FormControl>
         </Grid>
         <Grid item xs={12}>
           {error ? (
-            <Typography color="error">
-              Please fill out the required fields
-            </Typography>
+            <Typography color="error">{t("form.info.error")}</Typography>
           ) : sent ? (
-            <Typography color="secondary">
-              Request sent! We will contact you within the next few days
-            </Typography>
+            <Typography color="secondary">{t("form.info.sent")}</Typography>
           ) : loading ? (
-            <Typography color="secondary">Sending...</Typography>
+            <Typography color="secondary">{t("form.info.loading")}</Typography>
           ) : (
-            <Typography color="secondary">
-              Please fill out the form with orders or questions. We will reply
-              by phone or email
-            </Typography>
+            <Typography color="secondary">{t("form.info.default")}</Typography>
           )}
         </Grid>
         <Grid item xs={12}>
@@ -468,7 +461,11 @@ export default function AddressForm() {
             disabled={loading}
             sx={{ width: 70 }}
           >
-            {fieldsDisabled ? <CircularProgress size={24} /> : "Send"}
+            {fieldsDisabled ? (
+              <CircularProgress size={24} />
+            ) : (
+              t("form.send-button")
+            )}
           </Button>
         </Grid>
       </Grid>
