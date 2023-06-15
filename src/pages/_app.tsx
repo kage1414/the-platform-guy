@@ -21,6 +21,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <title>
           ThePlatformGuy.com - Custom-built boat swim platforms and swim decks
         </title>
+        <link rel="icon" href="/platform_favicon.ico" sizes="any" />
         <meta
           name="description"
           content="Custom-built boat swim platform and swim decks for any style of boat"
