@@ -1,0 +1,16 @@
+{
+  "title": "The Platform Guy",
+  "welcome": "Welcome to The Platform Guy!",
+  "pages": {
+    "home": "Home",
+    "order": "Order",
+    "about": "About",
+    "photos": "Photos"
+  },
+  "bio": "My name is Mark. I've been building swim platforms for {{years}}. I specialize in Correct Craft  boats, but can build platforms for all major ski and wake boat  brands. All of my platforms are built using Jatoba, West System® Epoxy, and stainless steel screws.",
+  "link": {
+    "about": "Our Platforms",
+    "order": "Place an Order"
+  },
+  "photos": "Enjoy some additional photos of my platforms."
+}

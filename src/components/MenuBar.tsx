@@ -1,8 +1,10 @@
 import { Box, AppBar, Typography, Toolbar, Button } from "@mui/material";
+import { useTranslation } from "next-i18next";
 import Link from "next/link";
 import { ReactElement } from "react";
 
 export const MenuBar = (): ReactElement => {
+  const { t } = useTranslation("common");
   return (
     <Box>
       <AppBar
@@ -21,29 +23,29 @@ export const MenuBar = (): ReactElement => {
             <Box>
               <Link href={"/"}>
                 <Button sx={{ color: "white" }}>
-                  <Typography padding={1}>The Platform Guy</Typography>
+                  <Typography padding={1}>{t("title")}</Typography>
                 </Button>
               </Link>
             </Box>
             <Box display="flex" flexWrap={"wrap"}>
               <Link href={"/"}>
                 <Button sx={{ color: "white" }} disableRipple>
-                  <Typography padding={1}>Home</Typography>
+                  <Typography padding={1}>{t("pages.home")}</Typography>
                 </Button>
               </Link>
               <Link href={"/order"}>
                 <Button sx={{ color: "white" }} disableRipple>
-                  <Typography padding={1}>Order</Typography>
+                  <Typography padding={1}>{t("pages.order")}</Typography>
                 </Button>
               </Link>
               <Link href={"/about"}>
                 <Button sx={{ color: "white" }} disableRipple>
-                  <Typography padding={1}>About</Typography>
+                  <Typography padding={1}>{t("pages.about")}</Typography>
                 </Button>
               </Link>
               <Link href={"/photos"}>
                 <Button sx={{ color: "white" }} disableRipple>
-                  <Typography padding={1}>Photos</Typography>
+                  <Typography padding={1}>{t("pages.photos")}</Typography>
                 </Button>
               </Link>
             </Box>

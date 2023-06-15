@@ -3,6 +3,7 @@ import { ImageProps } from "./Album";
 import { PageContainer } from "./PageContainer";
 import { Paragraph } from "./Paragraph";
 import { Box } from "@mui/material";
+import { useTranslation } from "next-i18next";
 import { ReactElement } from "react";
 
 const Images: ImageProps[] = [
@@ -37,12 +38,11 @@ const Images: ImageProps[] = [
 ];
 
 export const PhotoPage = (): ReactElement => {
+  const { t } = useTranslation("common");
   return (
     <PageContainer>
       <Box>
-        <Paragraph
-          mainTextBody={`Enjoy some additional photos of my platforms.`}
-        />
+        <Paragraph mainTextBody={t("photos")} />
         <Album images={Images} />
       </Box>
     </PageContainer>
