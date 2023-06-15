@@ -1,5 +1,7 @@
+import nextI18NextConfig from "../../next-i18next.config.js";
 import "@/styles/globals.css";
 import { createTheme, ThemeProvider } from "@mui/material";
+import { appWithTranslation } from "next-i18next";
 import type { AppProps } from "next/app";
 import Head from "next/head";
 
@@ -14,7 +16,7 @@ const theme = createTheme({
   },
 });
 
-export default function App({ Component, pageProps }: AppProps) {
+function App({ Component, pageProps }: AppProps) {
   return (
     <ThemeProvider theme={theme}>
       <Head>
@@ -37,3 +39,5 @@ export default function App({ Component, pageProps }: AppProps) {
     </ThemeProvider>
   );
 }
+
+export default appWithTranslation(App, nextI18NextConfig);
