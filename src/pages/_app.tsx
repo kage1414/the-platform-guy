@@ -28,6 +28,7 @@ export default function App({ Component, pageProps }: AppProps) {
           property="og:title"
           content="ThePlatformGuy.com"
         />
+        <link rel="canonical" href="https://theplatformguy.com/" />
       </Head>
       <Component {...pageProps} />
     </ThemeProvider>
