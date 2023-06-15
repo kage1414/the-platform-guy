@@ -23,7 +23,7 @@ export const MenuBar = (): ReactElement => {
             <Box>
               <Link href={"/"}>
                 <Button sx={{ color: "white" }}>
-                  <Typography padding={1}>{t("site-title")}</Typography>
+                  <Typography padding={1}>{t("title")}</Typography>
                 </Button>
               </Link>
             </Box>
