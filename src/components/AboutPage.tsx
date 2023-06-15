@@ -16,15 +16,15 @@ export const AboutPage = (): ReactElement => {
         images={[
           {
             src: "/platform.png",
-            alt: "Platform",
+            alt: "Swim Deck Platform",
           },
           {
             src: "/_MG_9944Grain.png",
-            alt: "Grain",
+            alt: "Wood Grain",
           },
           {
             src: "/JatobaSlab.png",
-            alt: "Slab",
+            alt: "Wood Slab",
           },
         ]}
       />
@@ -36,7 +36,7 @@ export const AboutPage = (): ReactElement => {
         images={[
           {
             src: "/_MG_9949chem.png",
-            alt: "West Systems",
+            alt: "West Systems Epoxy",
           },
         ]}
       />
