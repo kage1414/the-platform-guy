@@ -18,10 +18,12 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <ThemeProvider theme={theme}>
       <Head>
-        <title>ThePlatformGuy.com</title>
+        <title>
+          ThePlatformGuy.com - Custom-built boat swim platforms and swim decks
+        </title>
         <meta
           name="description"
-          content="Authentic swim platform and swim deck reproductions for any style of boat"
+          content="Custom-built boat swim platform and swim decks for any style of boat"
         />
         <meta
           name="og:title"
