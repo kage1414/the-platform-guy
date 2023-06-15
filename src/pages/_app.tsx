@@ -18,7 +18,20 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <ThemeProvider theme={theme}>
       <Head>
-        <title>The Platform Guy</title>
+        <title>
+          ThePlatformGuy.com - Custom-built boat swim platforms and swim decks
+        </title>
+        <link rel="icon" href="/platform_favicon.ico" sizes="any" />
+        <meta
+          name="description"
+          content="Custom-built boat swim platform and swim decks for any style of boat"
+        />
+        <meta
+          name="og:title"
+          property="og:title"
+          content="ThePlatformGuy.com"
+        />
+        <link rel="canonical" href="https://theplatformguy.com/" />
       </Head>
       <Component {...pageProps} />
     </ThemeProvider>
