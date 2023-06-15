@@ -23,6 +23,11 @@ export default function App({ Component, pageProps }: AppProps) {
           name="description"
           content="Authentic swim platform and swim deck reproductions for any style of boat"
         />
+        <meta
+          name="og:title"
+          property="og:title"
+          content="ThePlatformGuy.com"
+        />
       </Head>
       <Component {...pageProps} />
     </ThemeProvider>
