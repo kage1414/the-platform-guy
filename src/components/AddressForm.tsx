@@ -283,7 +283,7 @@ export default function AddressForm() {
         </Grid>
         <Grid item xs={12} sm={6}>
           <FormControl sx={{ width: "100%" }}>
-            <InputLabel id="stateLabel">State/Province/Region</InputLabel>
+            <InputLabel id="stateLabel">{t("form.state")}</InputLabel>
             <Select
               id="state"
               name="state"
@@ -319,7 +319,7 @@ export default function AddressForm() {
         </Grid>
         <Grid item xs={12} sm={6}>
           <FormControl sx={{ width: "100%" }}>
-            <InputLabel id="countryLabel">Country</InputLabel>
+            <InputLabel id="countryLabel">{t("form.country")}</InputLabel>
             <Select
               required={formType === "order"}
               id="country"
@@ -377,7 +377,9 @@ export default function AddressForm() {
         </Grid>
         <Grid item xs={12}>
           <FormControl sx={{ width: "10em" }}>
-            <InputLabel id="platformSizeLabel">Platform Size</InputLabel>
+            <InputLabel id="platformSizeLabel">
+              {t("form.platform-size")}
+            </InputLabel>
             <Select
               required={formType === "order"}
               id="platformSize"
