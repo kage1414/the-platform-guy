@@ -3,8 +3,8 @@ import { PageContainer } from "./PageContainer";
 import { Paragraph } from "./Paragraph";
 import { PricingList } from "./PricingList";
 import { PlatformSizes } from "@/utils/PlatformSizes";
+import { useTranslation } from "next-i18next";
 import { ReactElement } from "react";
-import { useTranslation } from "react-i18next";
 
 export const OrderPage = (): ReactElement => {
   const { t } = useTranslation("order");

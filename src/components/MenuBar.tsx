@@ -1,7 +1,7 @@
 import { Box, AppBar, Typography, Toolbar, Button } from "@mui/material";
+import { useTranslation } from "next-i18next";
 import Link from "next/link";
 import { ReactElement } from "react";
-import { useTranslation } from "react-i18next";
 
 export const MenuBar = (): ReactElement => {
   const { t } = useTranslation("common");
@@ -23,7 +23,7 @@ export const MenuBar = (): ReactElement => {
             <Box>
               <Link href={"/"}>
                 <Button sx={{ color: "white" }}>
-                  <Typography padding={1}>The Platform Guy</Typography>
+                  <Typography padding={1}>{t("site-title")}</Typography>
                 </Button>
               </Link>
             </Box>

@@ -21,10 +21,10 @@ import axios from "axios";
 import { Country, ICountry, IState, State } from "country-state-city";
 import * as emailValidator from "email-validator";
 import MuiPhoneNumber from "material-ui-phone-number";
+import { useTranslation } from "next-i18next";
 import Router from "next/router";
 import { phone } from "phone";
 import { ReactElement, useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
 
 interface ValidateArgs {
   firstName: string;
