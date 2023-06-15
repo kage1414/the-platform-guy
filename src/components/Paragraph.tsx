@@ -18,8 +18,8 @@ export const Paragraph = ({
     <Container maxWidth="sm">
       {headerText && (
         <Typography
-          component="h1"
-          variant="h2"
+          component="h3"
+          variant="h4"
           align="center"
           color="text.primary"
           gutterBottom
@@ -29,8 +29,8 @@ export const Paragraph = ({
       )}
       {subHeaderText && (
         <Typography
-          component="h1"
-          variant="h4"
+          component="h4"
+          variant="h5"
           align="center"
           color="text.secondary"
           gutterBottom
@@ -40,7 +40,7 @@ export const Paragraph = ({
       )}
       {mainTextBody && (
         <Typography
-          variant="h5"
+          variant="body1"
           align="center"
           color="text.secondary"
           paragraph
