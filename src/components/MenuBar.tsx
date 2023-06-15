@@ -30,22 +30,22 @@ export const MenuBar = (): ReactElement => {
             <Box display="flex" flexWrap={"wrap"}>
               <Link href={"/"}>
                 <Button sx={{ color: "white" }} disableRipple>
-                  <Typography padding={1}>{t("home")}</Typography>
+                  <Typography padding={1}>{t("pages.home")}</Typography>
                 </Button>
               </Link>
               <Link href={"/order"}>
                 <Button sx={{ color: "white" }} disableRipple>
-                  <Typography padding={1}>{t("order")}</Typography>
+                  <Typography padding={1}>{t("pages.order")}</Typography>
                 </Button>
               </Link>
               <Link href={"/about"}>
                 <Button sx={{ color: "white" }} disableRipple>
-                  <Typography padding={1}>{t("about")}</Typography>
+                  <Typography padding={1}>{t("pages.about")}</Typography>
                 </Button>
               </Link>
               <Link href={"/photos"}>
                 <Button sx={{ color: "white" }} disableRipple>
-                  <Typography padding={1}>{t("photos")}</Typography>
+                  <Typography padding={1}>{t("pages.photos")}</Typography>
                 </Button>
               </Link>
             </Box>
